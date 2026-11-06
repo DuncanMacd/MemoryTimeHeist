@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11111d">
+  <title>Pixel Heist — Computer Shop</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <div>
+        <p class="eyebrow">A LITTLE 8-BIT ADVENTURE</p>
+        <h1>PIXEL <span>HEIST</span></h1>
+        <p class="subtitle">The computer shop is yours to explore.</p>
+      </div>
+      <button id="restart" type="button">RESET SHOP <span aria-hidden="true">↻</span></button>
+    </header>
+
+    <section class="game-section" aria-label="Computer shop game">
+      <div class="game-frame">
+        <canvas id="game" width="1586" height="992" aria-label="Computer shop map. Move with arrow keys or WASD and press space near equipment or a storage unit.">
+          Your browser does not support the canvas needed to play this game.
+        </canvas>
+        <div id="loading" class="loading">LOADING SHOP...</div>
+      </div>
+      <div class="game-info">
+        <div id="status" class="status" role="status" aria-live="polite">Loading the shop...</div>
+        <div class="controls" aria-label="Game controls">
+          <span><kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> <b>or</b> <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> MOVE</span>
+          <span><kbd class="space-key">SPACE</kbd> SEARCH</span>
+        </div>
+      </div>
+    </section>
+    <p class="hint">Stand still by equipment or storage and press space to search. Move or press space to pause; return and resume anytime.</p>
+  </main>
+  <script src="assets/computer-shop-data.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
