@@ -27,21 +27,33 @@
   // The original image is flattened; these bounds identify the removable displays.
   const computers = [
     ...[
-      [177, 335, 84, 92], [280, 336, 83, 91], [368, 335, 94, 92],
-      [486, 339, 74, 88], [604, 336, 76, 91]
-    ].map(box => ({ box, bench: 0, sample: 166, shelfTop: 350 })),
+      ["upper-left-printer", 177, 335, 84, 92],
+      ["upper-left-computer-1", 280, 336, 83, 91],
+      ["upper-left-computer-2", 368, 335, 94, 92],
+      ["upper-left-computer-3", 486, 339, 74, 88],
+      ["upper-left-computer-4", 604, 336, 76, 91]
+    ].map(([id, ...box]) => ({ id, box, bench: 0, sample: 166, shelfTop: 350 })),
     ...[
-      [863, 336, 73, 91], [958, 340, 62, 87], [1044, 336, 64, 91],
-      [1150, 340, 70, 87], [1246, 340, 64, 87], [1370, 350, 56, 77]
-    ].map(box => ({ box, bench: 1, sample: 943, shelfTop: 350 })),
+      ["upper-right-computer-1", 863, 336, 73, 91],
+      ["upper-right-computer-2", 958, 340, 62, 87],
+      ["upper-right-computer-3", 1044, 336, 64, 91],
+      ["upper-right-computer-4", 1150, 340, 70, 87],
+      ["upper-right-computer-5", 1246, 340, 64, 87],
+      ["upper-right-computer-6", 1370, 350, 56, 77]
+    ].map(([id, ...box]) => ({ id, box, bench: 1, sample: 943, shelfTop: 350 })),
     ...[
-      [153, 603, 70, 89], [232, 607, 65, 85],
-      [307, 606, 65, 86], [384, 607, 57, 85]
-    ].map(box => ({ box, bench: 2, sample: 450, shelfTop: 606 })),
+      ["lower-left-laptop-1", 153, 603, 70, 89],
+      ["lower-left-laptop-2", 232, 607, 65, 85],
+      ["lower-left-laptop-3", 307, 606, 65, 86],
+      ["lower-left-laptop-4", 384, 607, 57, 85]
+    ].map(([id, ...box]) => ({ id, box, bench: 2, sample: 450, shelfTop: 606 })),
     ...[
-      [866, 604, 70, 88], [949, 601, 79, 91], [1056, 594, 88, 98],
-      [1172, 605, 86, 87], [1380, 622, 49, 70]
-    ].map(box => ({ box, bench: 3, sample: 940, shelfTop: 606 }))
+      ["lower-right-computer-1", 866, 604, 70, 88],
+      ["lower-right-computer-2", 949, 601, 79, 91],
+      ["lower-right-computer-3", 1056, 594, 88, 98],
+      ["lower-right-computer-4", 1172, 605, 86, 87],
+      ["lower-right-computer-5", 1380, 622, 49, 70]
+    ].map(([id, ...box]) => ({ id, box, bench: 3, sample: 940, shelfTop: 606 }))
   ].map((computer, index, list) => {
     const [x, y, w, h] = computer.box;
     const previous = list[index - 1];
@@ -52,7 +64,7 @@
     const right = next && next.bench === computer.bench
       ? Math.min(x + w + 4, Math.floor((x + w + next.box[0]) / 2))
       : x + w + 4;
-    const item = index === 0 ? "printer" : computer.bench === 2 ? "laptop" : "computer";
+    const item = computer.id === "upper-left-printer" ? "printer" : computer.bench === 2 ? "laptop" : "computer";
     return { ...computer, box: [left, y - 3, right - left, h + 8], type: "display", item };
   });
 
@@ -64,21 +76,29 @@
   ];
 
   const storageUnits = [
-    { bounds: { x: 120, y: 38, w: 54, h: 78 }, spriteBounds: { x: 117, y: 35, w: 61, h: 87 } },
-    { bounds: { x: 359, y: 38, w: 148, h: 80 }, spriteBounds: { x: 355, y: 35, w: 153, h: 87 } },
-    { bounds: { x: 508, y: 52, w: 132, h: 64 }, spriteBounds: { x: 508, y: 49, w: 137, h: 73 } },
-    { bounds: { x: 679, y: 38, w: 98, h: 80 }, spriteBounds: { x: 676, y: 35, w: 105, h: 87 } },
-    { bounds: { x: 900, y: 38, w: 241, h: 80 }, spriteBounds: { x: 897, y: 35, w: 247, h: 87 } },
-    { bounds: { x: 1179, y: 38, w: 55, h: 80 }, spriteBounds: { x: 1176, y: 35, w: 62, h: 87 } },
-    { bounds: { x: 1410, y: 38, w: 55, h: 80 }, spriteBounds: { x: 1407, y: 35, w: 64, h: 87 } }
+    { id: "storage-1", bounds: { x: 120, y: 38, w: 54, h: 78 }, spriteBounds: { x: 117, y: 35, w: 61, h: 87 } },
+    { id: "storage-2", bounds: { x: 359, y: 38, w: 148, h: 80 }, spriteBounds: { x: 355, y: 35, w: 153, h: 87 } },
+    { id: "storage-3", bounds: { x: 508, y: 52, w: 132, h: 64 }, spriteBounds: { x: 508, y: 49, w: 137, h: 73 } },
+    { id: "storage-4", bounds: { x: 679, y: 38, w: 98, h: 80 }, spriteBounds: { x: 676, y: 35, w: 105, h: 87 } },
+    { id: "storage-5", bounds: { x: 900, y: 38, w: 241, h: 80 }, spriteBounds: { x: 897, y: 35, w: 247, h: 87 } },
+    { id: "storage-6", bounds: { x: 1179, y: 38, w: 55, h: 80 }, spriteBounds: { x: 1176, y: 35, w: 62, h: 87 } },
+    { id: "storage-7", bounds: { x: 1410, y: 38, w: 55, h: 80 }, spriteBounds: { x: 1407, y: 35, w: 64, h: 87 } }
   ].map(unit => ({ ...unit, type: "storage", item: "storage" }));
-  const targets = [...computers, ...storageUnits].map((target, index) => {
-    target.id = `item-${index + 1}`;
-    target.searchDuration = 2 + index * 0.12;
+  const targets = [...computers, ...storageUnits];
+  for (const target of targets) {
+    const data = typeof ITEM_DATA === "undefined" ? undefined : ITEM_DATA[target.id];
+    const duration = data && data.searchSeconds;
+    if (typeof duration !== "number" || !Number.isFinite(duration) || duration <= 0) {
+      const message = `Invalid or missing searchSeconds for ${target.id} in item-data.js; use a positive number of seconds.`;
+      loading.textContent = message;
+      status.textContent = "SEARCH TIME CONFIGURATION ERROR";
+      throw new Error(message);
+    }
+    target.data = data;
+    target.searchDuration = duration;
     target.searchProgress = 0;
     target.searched = false;
-    return target;
-  });
+  }
   const itemNames = {
     computer: "COMPUTER",
     laptop: "LAPTOP",
@@ -90,6 +110,7 @@
   let action = null;
   let lastTime = 0;
   let ready = false;
+  let active = false;
   let lastStatus = "";
 
   function setStatus(message) {
@@ -389,19 +410,22 @@
     if (!ready) return;
     const delta = lastTime ? Math.min((time - lastTime) / 1000, 0.05) : 0;
     lastTime = time;
-    update(delta);
-    draw();
+    if (active) {
+      update(delta);
+      draw();
+    }
     requestAnimationFrame(frame);
   }
 
   const movementKeys = new Set(["arrowup", "arrowdown", "arrowleft", "arrowright", "w", "a", "s", "d"]);
   document.addEventListener("keydown", event => {
+    if (!active || (event.target instanceof Element && event.target.closest("button"))) return;
     const key = event.key.toLowerCase();
     if (movementKeys.has(key)) {
       event.preventDefault();
       if (action) action = null;
       keys.add(key);
-    } else if (event.code === "Space" && event.target !== restart) {
+    } else if (event.code === "Space") {
       event.preventDefault();
       if (!ready || event.repeat) return;
       if (action) {
@@ -432,6 +456,21 @@
     action = null;
     restart.blur();
   });
+
+  window.shopLevel = {
+    enter() {
+      active = true;
+      lastTime = 0;
+      canvas.focus();
+    },
+    leave() {
+      active = false;
+      keys.clear();
+      action = null;
+      player.moving = false;
+      lastTime = 0;
+    }
+  };
 
   image.onload = () => {
     try {

@@ -4,23 +4,38 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#11111d">
-  <title>Pixel Heist — Computer Shop</title>
+  <title>Memory Time Heist</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="page">
     <header class="header">
       <div>
-        <p class="eyebrow">A LITTLE 8-BIT ADVENTURE</p>
-        <h1>PIXEL <span>HEIST</span></h1>
-        <p class="subtitle">The computer shop is yours to explore.</p>
+        <p class="eyebrow">A TIME-TRAVELLING 8-BIT ADVENTURE</p>
+        <h1>MEMORY TIME <span>HEIST</span></h1>
+        <p id="subtitle" class="subtitle">A journey through the computer age.</p>
       </div>
-      <button id="restart" type="button">RESET SHOP <span aria-hidden="true">↻</span></button>
+      <div id="game-actions" class="header-actions" hidden>
+        <button id="menu" type="button">TITLE SCREEN</button>
+        <button id="restart" type="button">RESET SHOP <span aria-hidden="true">↻</span></button>
+      </div>
     </header>
 
+    <section id="title-screen" class="title-screen" aria-labelledby="story-heading">
+      <div class="story-content">
+        <p class="eyebrow">YOUR MISSION</p>
+        <h2 id="story-heading">A little too far back.</h2>
+        <p>You've travelled back in time to try and steal memory before people buy it in devices and fail to use it in the way you think is best. Unfortunately, you and your AI have travelled slightly too far back in time and need to steal memory for your AI to work out how to get you back to the present day.</p>
+        <button id="start" class="start-button" type="button">ENTER THE SHOP <span aria-hidden="true">→</span></button>
+        <p class="title-note">FIRST STOP: THE COMPUTER SHOP</p>
+      </div>
+      <div class="title-art" role="img" aria-label="A retro computer shop"></div>
+    </section>
+
+    <section id="game-screen" hidden>
     <section class="game-section" aria-label="Computer shop game">
       <div class="game-frame">
-        <canvas id="game" width="1586" height="992" aria-label="Computer shop map. Move with arrow keys or WASD and press space near equipment or a storage unit.">
+        <canvas id="game" width="1586" height="992" tabindex="-1" aria-label="Computer shop map. Move with arrow keys or WASD and press space near equipment or a storage unit.">
           Your browser does not support the canvas needed to play this game.
         </canvas>
         <div id="loading" class="loading">LOADING SHOP...</div>
@@ -34,8 +49,11 @@
       </div>
     </section>
     <p class="hint">Stand still by equipment or storage and press space to search. Move or press space to pause; return and resume anytime.</p>
+    </section>
   </main>
   <script src="assets/computer-shop-data.js"></script>
+  <script src="item-data.js"></script>
   <script src="game.js"></script>
+  <script src="game-shell.js"></script>
 </body>
 </html>
