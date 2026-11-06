@@ -5,7 +5,6 @@
   const ctx = canvas.getContext("2d");
   const status = document.getElementById("status");
   const loading = document.getElementById("loading");
-  const restart = document.getElementById("restart");
   const image = new Image();
   const background = document.createElement("canvas");
   background.width = canvas.width;
@@ -15,6 +14,7 @@
   const speed = 185;
   const radius = 14;
   const reach = 33;
+  const memorySizes = [0, 4, 8, 16, 32, 64];
 
   const benches = [
     { x: 140, y: 350, w: 575, h: 134 },
@@ -111,6 +111,8 @@
   let lastTime = 0;
   let ready = false;
   let active = false;
+  let onExit = null;
+  let onSearchComplete = null;
   let lastStatus = "";
 
   function setStatus(message) {
@@ -389,11 +391,16 @@
       if (!collides(player.x, player.y + moveY)) player.y += moveY;
       if (dx) player.facing = Math.sign(dx);
       player.step += delta * 30;
+      if (dy > 0 && player.x >= 735 && player.x <= 850 && player.y >= 860) {
+        onExit();
+        return;
+      }
     }
 
     if (action) {
       action.searchProgress = Math.min(action.searchProgress + delta, action.searchDuration);
       if (action.searchProgress >= action.searchDuration) {
+        if (!onSearchComplete(action.memoryMB)) return;
         action.searched = true;
         action = null;
       }
@@ -410,7 +417,7 @@
     if (!ready) return;
     const delta = lastTime ? Math.min((time - lastTime) / 1000, 0.05) : 0;
     lastTime = time;
-    if (active) {
+    if (active && !document.hidden) {
       update(delta);
       draw();
     }
@@ -423,6 +430,7 @@
     const key = event.key.toLowerCase();
     if (movementKeys.has(key)) {
       event.preventDefault();
+      if (event.repeat && !keys.has(key)) return;
       if (action) action = null;
       keys.add(key);
     } else if (event.code === "Space") {
@@ -443,10 +451,11 @@
     action = null;
     lastTime = 0;
   });
-  restart.addEventListener("click", () => {
+  function reset() {
     for (const target of targets) {
       target.searched = false;
       target.searchProgress = 0;
+      target.memoryMB = memorySizes[Math.floor(Math.random() * memorySizes.length)];
     }
     player.x = 792;
     player.y = 848;
@@ -454,11 +463,14 @@
     player.facing = 1;
     keys.clear();
     action = null;
-    restart.blur();
-  });
+    player.step = 0;
+  }
 
   window.shopLevel = {
-    enter() {
+    get ready() { return ready; },
+    enter(exit, searchComplete) {
+      onExit = exit;
+      onSearchComplete = searchComplete;
       active = true;
       lastTime = 0;
       canvas.focus();
@@ -469,7 +481,8 @@
       action = null;
       player.moving = false;
       lastTime = 0;
-    }
+    },
+    reset
   };
 
   image.onload = () => {

@@ -37,6 +37,27 @@ button span { color: #e6ad58; font: 18px/0 sans-serif; vertical-align: middle; m
 .title-note { color: #8d8b9c; font: 8px/1.7 "Press Start 2P", monospace; margin: 18px 0 0; }
 .title-art { background: linear-gradient(90deg, #1d1c2a, transparent 30%), url("assets/computer-shop.png") center / cover; image-rendering: pixelated; }
 .game-section { background: #1d1c2a; border: 1px solid #484357; border-radius: 8px; padding: 10px; box-shadow: 0 18px 55px #0006; }
+.level-info { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: #e6ad58; font: 10px/1.5 "Press Start 2P", monospace; padding: 8px 9px 14px; }
+.level-info .urgent { color: #ff847b; }
+.ai-panel { display: flex; align-items: center; gap: 14px; background: #28273a; border: 1px solid #49465b; border-radius: 4px; padding: 10px 12px; margin: 0 0 10px; }
+.ai-icon { width: 42px; height: 42px; flex: none; }
+.ai-data { flex: 1; min-width: 0; }
+.ai-dialogue { display: flex; align-items: flex-start; gap: 14px; min-height: 120px; padding: 15px; margin-bottom: 24px; background: #28273a; border: 1px solid #49465b; border-radius: 4px; }
+.ai-dialogue > div { min-width: 0; }
+.ai-dialogue-label { color: #e6ad58; font: 9px/1.6 "Press Start 2P", monospace; }
+.ai-dialogue p { color: #f5f0e2; line-height: 1.6; margin: 8px 0 0; }
+.ai-dialogue-message { display: grid; }
+.ai-dialogue-message p { grid-area: 1 / 1; }
+.ai-dialogue-sizer { visibility: hidden; }
+#level-complete-screen .story-content { align-self: start; }
+#next-level-details[hidden] { display: block !important; visibility: hidden; }
+#next-level-summary { color: #c5c2cf; line-height: 1.8; margin: 0 0 20px; }
+.ai-heading { display: flex; justify-content: space-between; gap: 10px; color: #e6ad58; font: 9px/1.5 "Press Start 2P", monospace; }
+progress { display: block; width: 100%; height: 10px; margin-top: 6px; border: 0; background: #151522; color: #74d9c4; }
+progress::-webkit-progress-bar { background: #151522; }
+progress::-webkit-progress-value { background: #74d9c4; }
+progress::-moz-progress-bar { background: #74d9c4; }
+.memory-message { color: #b7b5c5; font-size: 12px; margin: 5px 0 0; }
 .game-frame { position: relative; background: #000; overflow: hidden; border-radius: 3px; }
 canvas { width: 100%; height: auto; display: block; image-rendering: pixelated; }
 .loading { position: absolute; inset: 0; display: grid; place-items: center; background: #151522; color: #e6ad58; font: 12px/1.8 "Press Start 2P", monospace; text-align: center; padding: 20px; }

@@ -26,14 +26,67 @@
         <p class="eyebrow">YOUR MISSION</p>
         <h2 id="story-heading">A little too far back.</h2>
         <p>You've travelled back in time to try and steal memory before people buy it in devices and fail to use it in the way you think is best. Unfortunately, you and your AI have travelled slightly too far back in time and need to steal memory for your AI to work out how to get you back to the present day.</p>
-        <button id="start" class="start-button" type="button">ENTER THE SHOP <span aria-hidden="true">→</span></button>
+        <button id="start" class="start-button" type="button">START <span aria-hidden="true">→</span></button>
         <p class="title-note">FIRST STOP: THE COMPUTER SHOP</p>
       </div>
       <div class="title-art" role="img" aria-label="A retro computer shop"></div>
     </section>
 
+    <section id="level-complete-screen" class="title-screen" aria-labelledby="level-complete-heading" hidden>
+      <div class="story-content">
+        <p class="eyebrow">ESCAPE SUCCESSFUL</p>
+        <h2 id="level-complete-heading" tabindex="-1">Level complete.</h2>
+        <p id="level-complete-summary"></p>
+        <div class="ai-dialogue">
+          <svg class="ai-icon" viewBox="0 0 48 48" role="img" aria-label="AI companion" shape-rendering="crispEdges">
+            <path fill="#e9af5d" d="M22 1h4v6h-4zM7 10h34v5H7zM3 15h42v25H3zM8 40h32v5H8z"/>
+            <path fill="#242437" d="M8 16h32v19H8z"/>
+            <path fill="#74d9c4" d="M13 21h6v6h-6zM29 21h6v6h-6zM18 30h12v3H18z"/>
+          </svg>
+          <div>
+            <span class="ai-dialogue-label">AI COMPANION</span>
+            <div class="ai-dialogue-message">
+              <p class="ai-dialogue-sizer" aria-hidden="true">Attempting to plot our way back to our time...</p>
+              <p class="ai-dialogue-sizer" aria-hidden="true">Oh. Probably shouldn't have let me watch Time Tunnel before we set off</p>
+              <p id="ai-dialogue-text" role="status" aria-live="polite"></p>
+            </div>
+          </div>
+        </div>
+        <div id="next-level-details" hidden>
+          <p id="next-level-summary"></p>
+          <button id="next-level" class="start-button" type="button">NEXT LEVEL <span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+      <div class="title-art" role="img" aria-label="A retro computer shop"></div>
+    </section>
+
+    <section id="game-over-screen" class="title-screen" aria-labelledby="game-over-heading" hidden>
+      <div class="story-content">
+        <p id="game-over-reason" class="eyebrow">TIME'S UP</p>
+        <h2 id="game-over-heading" tabindex="-1">Game over.</h2>
+        <p id="game-over-message">You didn't reach the front doors in time.</p>
+        <button id="game-over-title" class="start-button" type="button">TITLE SCREEN <span aria-hidden="true">→</span></button>
+      </div>
+    </section>
+
     <section id="game-screen" hidden>
     <section class="game-section" aria-label="Computer shop game">
+      <div class="level-info">
+        <span id="level-label">LEVEL 1</span>
+        <span id="timer" role="timer" aria-label="Time remaining">01:00</span>
+      </div>
+      <div class="ai-panel">
+        <svg class="ai-icon" viewBox="0 0 48 48" role="img" aria-label="AI companion" shape-rendering="crispEdges">
+          <path fill="#e9af5d" d="M22 1h4v6h-4zM7 10h34v5H7zM3 15h42v25H3zM8 40h32v5H8z"/>
+          <path fill="#242437" d="M8 16h32v19H8z"/>
+          <path fill="#74d9c4" d="M13 21h6v6h-6zM29 21h6v6h-6zM18 30h12v3H18z"/>
+        </svg>
+        <div class="ai-data">
+          <div class="ai-heading"><span>AI MEMORY</span><span id="memory-total">0 / 64 MB</span></div>
+          <progress id="memory-progress" aria-label="Memory collected for this level" value="0" max="64"></progress>
+          <p id="memory-message" class="memory-message" aria-live="polite">Find memory, then reach the front doors.</p>
+        </div>
+      </div>
       <div class="game-frame">
         <canvas id="game" width="1586" height="992" tabindex="-1" aria-label="Computer shop map. Move with arrow keys or WASD and press space near equipment or a storage unit.">
           Your browser does not support the canvas needed to play this game.
@@ -48,11 +101,12 @@
         </div>
       </div>
     </section>
-    <p class="hint">Stand still by equipment or storage and press space to search. Move or press space to pause; return and resume anytime.</p>
+    <p class="hint">Search with Space; move or press Space to pause a search. The front doors unlock when you meet the memory target. Exit before time runs out.</p>
     </section>
   </main>
   <script src="assets/computer-shop-data.js"></script>
   <script src="item-data.js"></script>
+  <script src="level-data.js"></script>
   <script src="game.js"></script>
   <script src="game-shell.js"></script>
 </body>
