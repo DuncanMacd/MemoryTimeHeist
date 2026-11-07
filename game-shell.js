@@ -105,6 +105,7 @@
 
   function gameOver(caught = false) {
     currentLevel.controller.leave();
+    window.gameAudio.setMusicActive(false);
     currentLevel = null;
     paused = false;
     clockStartedAt = null;
@@ -171,6 +172,7 @@
       return;
     }
     currentLevel.controller.leave();
+    window.gameAudio.setMusicActive(false);
     const looping = levelNumber === levels.length;
     const nextLevelNumber = looping ? 1 : levelNumber + 1;
     const nextLevel = levels[nextLevelNumber - 1];
@@ -187,6 +189,7 @@
 
   function enterLevel(level, resume) {
     clearCutscene();
+    window.gameAudio.setMusicActive(true);
     titleScreen.hidden = true;
     levelCompleteScreen.hidden = true;
     gameOverScreen.hidden = true;
@@ -224,6 +227,7 @@
     gameOverScreen.hidden = true;
     levelCompleteScreen.hidden = true;
     titleScreen.hidden = false;
+    window.gameAudio.setMusicActive(true);
     subtitle.textContent = "A journey through the computer age.";
     start.focus();
   }

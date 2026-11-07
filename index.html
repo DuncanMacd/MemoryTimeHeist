@@ -15,11 +15,15 @@
         <h1>MEMORY TIME <span>HEIST</span></h1>
         <p id="subtitle" class="subtitle">A journey through the computer age.</p>
       </div>
-      <div id="game-actions" class="header-actions" hidden>
-        <button id="menu" type="button">TITLE SCREEN</button>
-        <button id="restart" type="button">RESET SHOP <span aria-hidden="true">↻</span></button>
+      <div class="header-actions">
+        <button id="sound" type="button" aria-pressed="false">ENABLE SOUND</button>
+        <div id="game-actions" class="header-actions" hidden>
+          <button id="menu" type="button">TITLE SCREEN</button>
+          <button id="restart" type="button">RESET SHOP <span aria-hidden="true">↻</span></button>
+        </div>
       </div>
     </header>
+    <p id="audio-status" class="audio-status" role="status" aria-live="polite"></p>
 
     <section id="title-screen" class="title-screen" aria-labelledby="story-heading">
       <div class="story-content">
@@ -108,6 +112,7 @@
   <script src="assets/computer-shop-data.js"></script>
   <script src="item-data.js"></script>
   <script src="level-data.js"></script>
+  <script src="audio.js"></script>
   <script src="guards.js"></script>
   <script src="game.js"></script>
   <script src="game-shell.js"></script>

@@ -21,6 +21,10 @@ Each searchable item, including storage and the printer, independently contains 
 
 Search progress lasts for the current game session; refreshing or reopening the page starts a new game.
 
+Select **Enable Sound** to hear an approximately 18-second 8-bit loop of the opening of "The Cortege" from Charles Gounod's *Funeral March of a Marionette*, plus search and guard-alert effects. Browsers require a click before sound can start. Use **Mute Sound** to turn it off; the choice persists while moving between screens. Music plays on the title and during gameplay, stops on the level-complete and game-over screens, and pauses while the tab is hidden. Search sounds stop when a search is interrupted. No audio files or network connection are needed.
+
+The music is a new synthesized adaptation of an excerpt from the historical [1890 piano edition](https://archive.org/details/CSM_00744) of Gounod's public-domain composition; it does not use a commercial recording.
+
 ## Editing item data
 
 Each searchable object has its own record in `item-data.js`. Bench item IDs describe their original display row, side and left-to-right order, but the items move between display positions when the level starts or resets. Storage units are numbered from left to right behind the counter and stay in place. For example:

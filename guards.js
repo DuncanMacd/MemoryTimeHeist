@@ -38,7 +38,7 @@
     return !obstacles.some(rect => intersectsRect(a, b, rect));
   }
 
-  function createSecurityGuards(count, behaviour, arrival, speed, playerSpeed, obstacles, collides) {
+  function createSecurityGuards(count, behaviour, arrival, speed, playerSpeed, obstacles, collides, onAlert) {
     const expanded = obstacles.map(rect => ({
       x: rect.x - guardRadius + 0.01,
       y: rect.y - guardRadius + 0.01,
@@ -131,6 +131,7 @@
         Math.hypot(player.x - guard.x, player.y - guard.y) <= visionRange &&
         clearLine(guard, player, obstacles));
       const sharedSighting = behaviour === "fullforce" && seen.some(Boolean);
+      if (guards.some((guard, i) => (seen[i] || sharedSighting) && !guard.target)) onAlert();
       for (let i = 0; i < guards.length; i++) {
         const guard = guards[i];
         if (seen[i] || sharedSighting) {

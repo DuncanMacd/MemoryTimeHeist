@@ -398,7 +398,7 @@
     const length = Math.hypot(dx, dy);
     player.moving = length > 0;
     if (length) {
-      if (action) action = null;
+      if (action) stopSearch();
       const moveX = dx / length * speed * delta;
       const moveY = dy / length * speed * delta;
       if (!collides(player.x + moveX, player.y)) player.x += moveX;
@@ -421,7 +421,7 @@
       if (action.searchProgress >= action.searchDuration) {
         if (!onSearchComplete(action.memoryMB)) return;
         action.searched = true;
-        action = null;
+        stopSearch();
       }
     }
 
@@ -452,27 +452,40 @@
     if (movementKeys.has(key)) {
       event.preventDefault();
       if (event.repeat && !keys.has(key)) return;
-      if (action) action = null;
+      if (action) stopSearch();
       keys.add(key);
     } else if (event.code === "Space") {
       event.preventDefault();
       if (!ready || event.repeat) return;
       if (action) {
-        action = null;
+        stopSearch();
         return;
       }
       if (keys.size) return;
       const target = nearestTarget();
-      if (target) action = target;
+      if (target) {
+        action = target;
+        window.gameAudio.setSearching(true);
+      }
     }
   });
   document.addEventListener("keyup", event => keys.delete(event.key.toLowerCase()));
   window.addEventListener("blur", () => {
     keys.clear();
-    action = null;
+    stopSearch();
     lastTime = 0;
   });
-  document.addEventListener("visibilitychange", () => { lastTime = 0; });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      keys.clear();
+      stopSearch();
+    }
+    lastTime = 0;
+  });
+  function stopSearch() {
+    action = null;
+    window.gameAudio.setSearching(false);
+  }
   function reset(level) {
     const shuffledSlots = [...displaySlots];
     for (let i = shuffledSlots.length - 1; i > 0; i--) {
@@ -494,9 +507,9 @@
     player.moving = false;
     player.facing = 1;
     keys.clear();
-    action = null;
+    stopSearch();
     player.step = 0;
-    security = window.createSecurityGuards(level.guardCount, level.guardBehaviour, level.guardArrival, level.guardSpeed, speed, obstacles, collides);
+    security = window.createSecurityGuards(level.guardCount, level.guardBehaviour, level.guardArrival, level.guardSpeed, speed, obstacles, collides, window.gameAudio.alert);
   }
 
   window.shopLevel = {
@@ -512,7 +525,7 @@
     leave() {
       active = false;
       keys.clear();
-      action = null;
+      stopSearch();
       player.moving = false;
       lastTime = 0;
     },
