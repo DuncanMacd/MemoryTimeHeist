@@ -23,11 +23,9 @@
 
     <section id="title-screen" class="title-screen" aria-labelledby="story-heading">
       <div class="story-content">
-        <p class="eyebrow">YOUR MISSION</p>
         <h2 id="story-heading">A little too far back.</h2>
         <p>You've travelled back in time to try and steal memory before people buy it in devices and fail to use it in the way you think is best. Unfortunately, you and your AI have travelled slightly too far back in time and need to steal memory for your AI to work out how to get you back to the present day.</p>
         <button id="start" class="start-button" type="button">START <span aria-hidden="true">→</span></button>
-        <p class="title-note">FIRST STOP: THE COMPUTER SHOP</p>
       </div>
       <div class="title-art" role="img" aria-label="A retro computer shop"></div>
     </section>
@@ -54,7 +52,10 @@
         </div>
         <div id="next-level-details" hidden>
           <p id="next-level-summary"></p>
-          <button id="next-level" class="start-button" type="button">NEXT LEVEL <span aria-hidden="true">→</span></button>
+          <div class="level-complete-actions">
+            <button id="next-level" class="start-button" type="button">NEXT LEVEL <span aria-hidden="true">→</span></button>
+            <button id="level-complete-title" type="button" hidden>TITLE SCREEN</button>
+          </div>
         </div>
       </div>
       <div class="title-art" role="img" aria-label="A retro computer shop"></div>

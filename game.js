@@ -365,15 +365,19 @@
     ctx.fillRect(x, y, Math.floor(72 * action.searchProgress / action.searchDuration), 7);
   }
 
-  function draw() {
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(background, 0, 0);
+  function drawShop(context, showAll) {
+    context.imageSmoothingEnabled = false;
+    context.drawImage(background, 0, 0);
     for (const computer of computers) {
-      if (!computer.searched) ctx.drawImage(computer.sprite, computer.box[0], computer.box[1]);
+      if (showAll || !computer.searched) context.drawImage(computer.sprite, computer.box[0], computer.box[1]);
     }
     for (const unit of storageUnits) {
-      if (!unit.searched) ctx.drawImage(unit.sprite, unit.spriteBounds.x, unit.spriteBounds.y);
+      if (showAll || !unit.searched) context.drawImage(unit.sprite, unit.spriteBounds.x, unit.spriteBounds.y);
     }
+  }
+
+  function draw() {
+    drawShop(ctx, false);
     drawPlayer();
     drawProgress();
   }
@@ -488,15 +492,28 @@
   image.onload = () => {
     try {
       prepareBackground();
+      const artwork = document.createElement("canvas");
+      artwork.width = canvas.width;
+      artwork.height = canvas.height;
+      drawShop(artwork.getContext("2d"), true);
+      artwork.toBlob(blob => {
+        if (!blob) {
+          console.error("Could not encode the shop artwork.");
+          loading.textContent = "COULD NOT PREPARE THE SHOP GRAPHICS. PLEASE RELOAD THE PAGE.";
+          setStatus("THE SHOP GRAPHICS COULD NOT BE PREPARED");
+          return;
+        }
+        document.documentElement.style.setProperty("--shop-art", `url("${URL.createObjectURL(blob)}")`);
+        ready = true;
+        loading.hidden = true;
+        requestAnimationFrame(frame);
+      });
     } catch (error) {
       console.error("Could not prepare the shop graphics:", error);
       loading.textContent = "COULD NOT PREPARE THE SHOP GRAPHICS. PLEASE RELOAD THE PAGE.";
       setStatus("THE SHOP GRAPHICS COULD NOT BE PREPARED");
       return;
     }
-    ready = true;
-    loading.hidden = true;
-    requestAnimationFrame(frame);
   };
   image.onerror = () => {
     loading.textContent = "COULD NOT LOAD THE SHOP IMAGE. PLEASE CHECK THE ASSETS FOLDER.";

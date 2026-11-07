@@ -14,6 +14,7 @@
   const nextLevelDetails = document.getElementById("next-level-details");
   const nextLevelSummary = document.getElementById("next-level-summary");
   const nextLevelButton = document.getElementById("next-level");
+  const levelCompleteTitle = document.getElementById("level-complete-title");
   const gameOverScreen = document.getElementById("game-over-screen");
   const gameOverTitle = document.getElementById("game-over-title");
   const gameOverReason = document.getElementById("game-over-reason");
@@ -55,6 +56,7 @@
   function startCutscene(looping) {
     clearCutscene();
     nextLevelDetails.hidden = true;
+    levelCompleteTitle.hidden = !looping;
     aiDialogueText.textContent = "Attempting to plot our way back to our time...";
     cutsceneTimer = setTimeout(() => {
       aiDialogueText.textContent = looping ? "Succeeded!" : "Failed, we need more memory.";
@@ -77,6 +79,7 @@
     memoryTotal.textContent = `${memoryMB} / ${currentLevel.targetMB} MB`;
     memoryProgress.max = currentLevel.targetMB;
     memoryProgress.value = Math.min(memoryMB, currentLevel.targetMB);
+    memoryProgress.classList.toggle("target-met", memoryMB >= currentLevel.targetMB);
     memoryMessage.textContent = message;
   }
 
@@ -211,6 +214,7 @@
     levelNumber = levelNumber % levels.length + 1;
     enterLevel(levels[levelNumber - 1], false);
   });
+  levelCompleteTitle.addEventListener("click", showTitle);
   gameOverTitle.addEventListener("click", showTitle);
   restart.addEventListener("click", () => {
     updateClock(performance.now());

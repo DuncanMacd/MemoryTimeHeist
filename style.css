@@ -30,12 +30,11 @@ button span { color: #e6ad58; font: 18px/0 sans-serif; vertical-align: middle; m
 .title-screen { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .8fr); min-height: 390px; border: 1px solid #484357; border-radius: 8px; background: #1d1c2a; overflow: hidden; box-shadow: 0 18px 55px #0006; }
 .story-content { padding: clamp(24px, 4vw, 48px); align-self: center; }
 .story-content h2 { margin: 0 0 18px; color: #f5f0e2; font: clamp(15px, 2vw, 20px)/1.6 "Press Start 2P", monospace; }
-.story-content > p:not(.eyebrow):not(.title-note) { color: #c5c2cf; line-height: 1.8; max-width: 55ch; margin: 0 0 25px; }
+.story-content > p:not(.eyebrow) { color: #c5c2cf; line-height: 1.8; max-width: 55ch; margin: 0 0 25px; }
 .start-button { background: #e9af5d; border-color: #e9af5d; color: #171622; padding: 17px 19px; }
 .start-button:hover { background: #f3c781; border-color: #f3c781; }
 .start-button span { color: #171622; }
-.title-note { color: #8d8b9c; font: 8px/1.7 "Press Start 2P", monospace; margin: 18px 0 0; }
-.title-art { background: linear-gradient(90deg, #1d1c2a, transparent 30%), url("assets/computer-shop.png") center / cover; image-rendering: pixelated; }
+.title-art { background: linear-gradient(90deg, #1d1c2a, transparent 30%), var(--shop-art, none) center / cover; image-rendering: pixelated; }
 .game-section { background: #1d1c2a; border: 1px solid #484357; border-radius: 8px; padding: 10px; box-shadow: 0 18px 55px #0006; }
 .level-info { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: #e6ad58; font: 10px/1.5 "Press Start 2P", monospace; padding: 8px 9px 14px; }
 .level-info .urgent { color: #ff847b; }
@@ -52,11 +51,13 @@ button span { color: #e6ad58; font: 18px/0 sans-serif; vertical-align: middle; m
 #level-complete-screen .story-content { align-self: start; }
 #next-level-details[hidden] { display: block !important; visibility: hidden; }
 #next-level-summary { color: #c5c2cf; line-height: 1.8; margin: 0 0 20px; }
+.level-complete-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .ai-heading { display: flex; justify-content: space-between; gap: 10px; color: #e6ad58; font: 9px/1.5 "Press Start 2P", monospace; }
-progress { display: block; width: 100%; height: 10px; margin-top: 6px; border: 0; background: #151522; color: #74d9c4; }
+progress { --progress-color: #e9af5d; display: block; width: 100%; height: 10px; margin-top: 6px; border: 0; background: #151522; color: var(--progress-color); }
+progress.target-met { --progress-color: #74d9c4; }
 progress::-webkit-progress-bar { background: #151522; }
-progress::-webkit-progress-value { background: #74d9c4; }
-progress::-moz-progress-bar { background: #74d9c4; }
+progress::-webkit-progress-value { background: var(--progress-color); }
+progress::-moz-progress-bar { background: var(--progress-color); }
 .memory-message { color: #b7b5c5; font-size: 12px; margin: 5px 0 0; }
 .game-frame { position: relative; background: #000; overflow: hidden; border-radius: 3px; }
 canvas { width: 100%; height: auto; display: block; image-rendering: pixelated; }
@@ -75,7 +76,7 @@ kbd { display: inline-block; min-width: 21px; text-align: center; background: #3
   .header { align-items: start; flex-wrap: wrap; }
   .header-actions { justify-content: flex-start; }
   .title-screen { grid-template-columns: 1fr; }
-  .title-art { min-height: 160px; background-image: linear-gradient(180deg, #1d1c2a, transparent 40%), url("assets/computer-shop.png"); }
+  .title-art { min-height: 160px; background-image: linear-gradient(180deg, #1d1c2a, transparent 40%), var(--shop-art, none); }
   .subtitle { font-size: 13px; }
   button { font-size: 8px; padding: 10px; }
   .game-info { padding-top: 13px; }
