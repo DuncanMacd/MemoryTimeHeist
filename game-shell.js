@@ -25,10 +25,24 @@
   const memoryProgress = document.getElementById("memory-progress");
   const memoryMessage = document.getElementById("memory-message");
 
+  function isPowerOfTwo(value) {
+    return Number.isSafeInteger(value) && value > 0 &&
+      2 ** Math.round(Math.log2(value)) === value;
+  }
+
   if (typeof LEVEL_DATA === "undefined" || !Array.isArray(LEVEL_DATA) || LEVEL_DATA.length !== 5 ||
       LEVEL_DATA.some(level => !level || !Number.isFinite(level.seconds) || level.seconds <= 0 ||
-        !Number.isSafeInteger(level.targetMB) || level.targetMB <= 0)) {
-    const message = "Invalid level-data.js: provide five levels with positive seconds and positive whole-number targetMB values.";
+        !Number.isSafeInteger(level.targetMB) || level.targetMB <= 0 ||
+        !level.memoryRange || !isPowerOfTwo(level.memoryRange.minMB) ||
+        !isPowerOfTwo(level.memoryRange.maxMB) || level.memoryRange.minMB > level.memoryRange.maxMB ||
+        !Number.isInteger(level.guardCount) || level.guardCount < 0 || level.guardCount > 4 ||
+        !["route", "observant", "fullforce"].includes(level.guardBehaviour) ||
+        !level.guardSpeed || !Number.isFinite(level.guardSpeed.normal) || level.guardSpeed.normal <= 0 ||
+        !Number.isFinite(level.guardSpeed.burst) || level.guardSpeed.burst < level.guardSpeed.normal ||
+        !Number.isFinite(level.guardSpeed.burstSeconds) || level.guardSpeed.burstSeconds < 0 ||
+        !level.guardArrival || !Number.isFinite(level.guardArrival.initialDelay) || level.guardArrival.initialDelay < 0 ||
+        !Number.isFinite(level.guardArrival.interval) || level.guardArrival.interval < 0)) {
+    const message = "Invalid level-data.js: provide five levels with positive seconds and targetMB, an ordered power-of-two memoryRange, guardCount from 0 to 4, valid guardBehaviour, positive guardSpeed normal, burst at least normal, non-negative burstSeconds, and non-negative guardArrival timings.";
     document.getElementById("title-screen").hidden = true;
     gameOverReason.textContent = "CONFIGURATION ERROR";
     gameOverMessage.textContent = message;
@@ -89,7 +103,7 @@
     timer.classList.toggle("urgent", seconds <= 10);
   }
 
-  function gameOver() {
+  function gameOver(caught = false) {
     currentLevel.controller.leave();
     currentLevel = null;
     paused = false;
@@ -97,8 +111,8 @@
     gameScreen.hidden = true;
     gameActions.hidden = true;
     gameOverScreen.hidden = false;
-    gameOverReason.textContent = "TIME'S UP";
-    gameOverMessage.textContent = "You didn't reach the front doors in time.";
+    gameOverReason.textContent = caught ? "CAUGHT" : "TIME'S UP";
+    gameOverMessage.textContent = caught ? "You got caught." : "You didn't reach the front doors in time.";
     subtitle.textContent = `Level ${levelNumber} — Computer Shop`;
     document.getElementById("game-over-heading").focus();
   }
@@ -120,7 +134,7 @@
   }
 
   function resetLevel() {
-    currentLevel.controller.reset();
+    currentLevel.controller.reset(currentLevel);
     remaining = currentLevel.seconds;
     memoryMB = 0;
     clockStartedAt = null;
@@ -137,6 +151,16 @@
       : `Found ${foundMB} MB. Keep searching!`;
     renderMemory(message);
     return true;
+  }
+
+  function caughtByGuard() {
+    updateClock(performance.now());
+    if (!currentLevel) return;
+    currentLevel.controller.freezeCaught();
+    paused = true;
+    clockStartedAt = null;
+    gameActions.hidden = true;
+    setTimeout(() => gameOver(true), 1000);
   }
 
   function exitLevel() {
@@ -175,7 +199,7 @@
     subtitle.textContent = `Level ${levelNumber} — ${level.title}`;
     if (level.controller) {
       if (!resume) resetLevel();
-      level.controller.enter(exitLevel, searchComplete);
+      level.controller.enter(exitLevel, searchComplete, caughtByGuard);
     } else {
       const loading = document.getElementById("loading");
       if (loading.textContent === "LOADING SHOP...") {
@@ -220,7 +244,7 @@
     updateClock(performance.now());
     if (!currentLevel) return;
     resetLevel();
-    currentLevel.controller.enter(exitLevel, searchComplete);
+    currentLevel.controller.enter(exitLevel, searchComplete, caughtByGuard);
   });
   document.addEventListener("visibilitychange", () => {
     if (document.hidden && currentLevel && !paused && clockStartedAt !== null) {

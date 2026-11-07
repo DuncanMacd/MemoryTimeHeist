@@ -14,7 +14,6 @@
   const speed = 185;
   const radius = 14;
   const reach = 33;
-  const memorySizes = [0, 4, 8, 16, 32, 64];
 
   const benches = [
     { x: 140, y: 350, w: 575, h: 134 },
@@ -113,6 +112,8 @@
   let active = false;
   let onExit = null;
   let onSearchComplete = null;
+  let onCaught = null;
+  let security = null;
   let lastStatus = "";
 
   function setStatus(message) {
@@ -378,11 +379,12 @@
 
   function draw() {
     drawShop(ctx, false);
+    security.draw(ctx);
     drawPlayer();
     drawProgress();
   }
 
-  function update(delta) {
+  function update(delta, elapsedDelta) {
     const dx = Number(keys.has("arrowright") || keys.has("d")) - Number(keys.has("arrowleft") || keys.has("a"));
     const dy = Number(keys.has("arrowdown") || keys.has("s")) - Number(keys.has("arrowup") || keys.has("w"));
     const length = Math.hypot(dx, dy);
@@ -395,10 +397,15 @@
       if (!collides(player.x, player.y + moveY)) player.y += moveY;
       if (dx) player.facing = Math.sign(dx);
       player.step += delta * 30;
-      if (dy > 0 && player.x >= 735 && player.x <= 850 && player.y >= 860) {
-        onExit();
-        return;
-      }
+    }
+
+    if (security.update(player, delta, elapsedDelta)) {
+      onCaught();
+      return;
+    }
+    if (dy > 0 && player.x >= 735 && player.x <= 850 && player.y >= 860) {
+      onExit();
+      if (!active) return;
     }
 
     if (action) {
@@ -419,10 +426,12 @@
 
   function frame(time) {
     if (!ready) return;
-    const delta = lastTime ? Math.min((time - lastTime) / 1000, 0.05) : 0;
+    const elapsedDelta = lastTime ? (time - lastTime) / 1000 : 0;
+    const delta = Math.min(elapsedDelta, 0.05);
     lastTime = time;
     if (active && !document.hidden) {
-      update(delta);
+      update(delta, elapsedDelta);
+      if (!active) return requestAnimationFrame(frame);
       draw();
     }
     requestAnimationFrame(frame);
@@ -455,7 +464,12 @@
     action = null;
     lastTime = 0;
   });
-  function reset() {
+  document.addEventListener("visibilitychange", () => { lastTime = 0; });
+  function reset(level) {
+    const memorySizes = [0];
+    for (let size = level.memoryRange.minMB; size <= level.memoryRange.maxMB; size *= 2) {
+      memorySizes.push(size);
+    }
     for (const target of targets) {
       target.searched = false;
       target.searchProgress = 0;
@@ -468,13 +482,15 @@
     keys.clear();
     action = null;
     player.step = 0;
+    security = window.createSecurityGuards(level.guardCount, level.guardBehaviour, level.guardArrival, level.guardSpeed, speed, obstacles, collides);
   }
 
   window.shopLevel = {
     get ready() { return ready; },
-    enter(exit, searchComplete) {
+    enter(exit, searchComplete, caught) {
       onExit = exit;
       onSearchComplete = searchComplete;
+      onCaught = caught;
       active = true;
       lastTime = 0;
       canvas.focus();
@@ -485,6 +501,11 @@
       action = null;
       player.moving = false;
       lastTime = 0;
+    },
+    freezeCaught() {
+      this.leave();
+      setStatus("CAUGHT BY SECURITY");
+      draw();
     },
     reset
   };
