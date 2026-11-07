@@ -8,7 +8,7 @@ Start from the title screen to enter the computer shop. The five levels have mem
 
 After each successful escape, the level-complete screen shows how much memory you collected. The AI tries to plot a route home; after level five, it succeeds but sends you back to level one. The next level's target, time limit, and **Next Level** button then appear. Select it when ready; the next timer starts only after entering the level. After level five, you can instead select **Title Screen** to end the run and return to the title.
 
-Each searchable item, including storage and the printer, independently contains a random amount of memory. Zero is always possible; the non-zero choices double from the level's minimum to its maximum, as configured in `level-data.js`. Each option is equally likely. The amount is assigned when a level starts and is awarded once when the search completes. The AI panel shows the last find and progress toward the current level's target; its progress bar is orange until the target is met, then turns green. Memory does not carry over between levels. Each level uses the same shop with fresh items; resetting a level also rerolls their memory.
+Each searchable item, including storage and the printer, independently contains a random amount of memory. Zero is always possible; the non-zero choices double from the level's minimum to its maximum, as configured in `level-data.js`. Each option is equally likely. The amount is assigned when a level starts and is awarded once when the search completes. The AI panel shows the last find and progress toward the current level's target; its progress bar is orange until the target is met, then turns green. Memory does not carry over between levels. Bench items are shuffled between display positions at the start of each level or on reset; storage behind the counter stays in place. Resetting also rerolls their memory.
 
 **Title Screen** pauses the timer and returns to the story without resetting the shop; start again to resume. The timer also pauses while the browser tab is hidden. After game over, return to the title screen to start again at level 1.
 
@@ -23,7 +23,7 @@ Search progress lasts for the current game session; refreshing or reopening the 
 
 ## Editing item data
 
-Each searchable object has its own record in `item-data.js`. Items are grouped by display row and side; their numbers run from left to right. Storage units are numbered from left to right behind the counter. For example:
+Each searchable object has its own record in `item-data.js`. Bench item IDs describe their original display row, side and left-to-right order, but the items move between display positions when the level starts or resets. Storage units are numbered from left to right behind the counter and stay in place. For example:
 
 ```js
 "upper-left-printer": {

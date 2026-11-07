@@ -1,4 +1,5 @@
-// Item IDs match the shop layout. Search durations are in seconds.
+// Item IDs describe their original display; items move between benches each level.
+// Search durations are in seconds.
 const ITEM_DATA = {
   // Upper row, left display
   "upper-left-printer": { searchSeconds: 2 },

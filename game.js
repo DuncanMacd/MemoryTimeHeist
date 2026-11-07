@@ -66,6 +66,8 @@
     const item = computer.id === "upper-left-printer" ? "printer" : computer.bench === 2 ? "laptop" : "computer";
     return { ...computer, box: [left, y - 3, right - left, h + 8], type: "display", item };
   });
+  const displaySlots = computers.map(computer => ({ box: computer.box, bench: computer.bench }));
+  for (let i = 0; i < computers.length; i++) computers[i].slot = displaySlots[i];
 
   const benchFronts = [
     { x: 140, y: 444, w: 575, oldHeight: 82 },
@@ -137,7 +139,7 @@
     for (const target of targets) {
       if (target.searched) continue;
       const bounds = target.type === "display"
-        ? { x: target.box[0], y: benches[target.bench].y, w: target.box[2], h: benches[target.bench].h }
+        ? { x: target.slot.box[0], y: benches[target.slot.bench].y, w: target.slot.box[2], h: benches[target.slot.bench].h }
         : target.bounds;
       const dx = Math.max(bounds.x - player.x, 0, player.x - (bounds.x + bounds.w));
       const dy = Math.max(bounds.y - player.y, 0, player.y - (bounds.y + bounds.h));
@@ -370,7 +372,13 @@
     context.imageSmoothingEnabled = false;
     context.drawImage(background, 0, 0);
     for (const computer of computers) {
-      if (showAll || !computer.searched) context.drawImage(computer.sprite, computer.box[0], computer.box[1]);
+      if (showAll || !computer.searched) {
+        const [x, y, width, height] = showAll ? computer.box : computer.slot.box;
+        const scale = Math.min(1, width / computer.sprite.width);
+        const spriteWidth = Math.round(computer.sprite.width * scale);
+        const spriteHeight = Math.round(computer.sprite.height * scale);
+        context.drawImage(computer.sprite, x + Math.floor((width - spriteWidth) / 2), y + height - spriteHeight, spriteWidth, spriteHeight);
+      }
     }
     for (const unit of storageUnits) {
       if (showAll || !unit.searched) context.drawImage(unit.sprite, unit.spriteBounds.x, unit.spriteBounds.y);
@@ -466,6 +474,12 @@
   });
   document.addEventListener("visibilitychange", () => { lastTime = 0; });
   function reset(level) {
+    const shuffledSlots = [...displaySlots];
+    for (let i = shuffledSlots.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledSlots[i], shuffledSlots[j]] = [shuffledSlots[j], shuffledSlots[i]];
+    }
+    for (let i = 0; i < computers.length; i++) computers[i].slot = shuffledSlots[i];
     const memorySizes = [0];
     for (let size = level.memoryRange.minMB; size <= level.memoryRange.maxMB; size *= 2) {
       memorySizes.push(size);
