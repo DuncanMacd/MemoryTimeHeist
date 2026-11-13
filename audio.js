@@ -5,7 +5,7 @@
   const status = document.getElementById("audio-status");
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   const eighth = 0.19;
-  // Sixteen bars from "The Cortege", adapted from the 1890 piano edition.
+  // Sixteen bars from "The Cortege" followed by a four-bar returning bridge.
   // Each bar has six eighth notes; entries are offset, MIDI note and duration.
   const bars = [
     [[2, 62, 1], [3, 62, 1], [4, 61, 1], [5, 59, 1]],
@@ -23,13 +23,18 @@
     [[0, 64, 1], [2, 67, 1], [3, 71, 2], [5, 69, 1]],
     [[0, 69, 1], [1, 67, 1], [2, 65, 1], [3, 63, 1], [4, 67, 1], [5, 70, 1]],
     [[0, 62, 1], [1, 61, 1], [2, 62, 1], [3, 64, 1], [5, 65, 1]],
-    [[0, 64, 3], [3, 62, 1]]
+    [[0, 64, 3], [3, 62, 1]],
+    [[0, 62, 2], [2, 65, 1], [3, 69, 2], [5, 65, 1]],
+    [[0, 67, 2], [2, 65, 1], [3, 64, 2], [5, 61, 1]],
+    [[0, 69, 2], [2, 73, 1], [3, 76, 2], [5, 73, 1]],
+    [[0, 67, 2], [2, 64, 1], [3, 61, 3]]
   ];
   const bassNotes = [
     [38, 50], [45, 45], [38, 50], [45, 45],
     [38, 50], [43, 55], [36, 48], [45, 45],
     [38, 50], [45, 45], [38, 50], [45, 45],
-    [38, 50], [43, 55], [45, 45], [38, 50]
+    [38, 50], [43, 55], [45, 45], [38, 50],
+    [38, 50], [43, 43], [45, 45], [45, 45]
   ];
   const loopDuration = bars.length * 6 * eighth;
   let context = null;

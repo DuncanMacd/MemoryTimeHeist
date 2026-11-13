@@ -11,6 +11,8 @@
   const levelCompleteScreen = document.getElementById("level-complete-screen");
   const levelCompleteSummary = document.getElementById("level-complete-summary");
   const aiDialogueText = document.getElementById("ai-dialogue-text");
+  const aiDialogueAnnouncement = document.getElementById("ai-dialogue-announcement");
+  const aiDialogue = document.querySelector(".ai-dialogue");
   const nextLevelDetails = document.getElementById("next-level-details");
   const nextLevelSummary = document.getElementById("next-level-summary");
   const nextLevelButton = document.getElementById("next-level");
@@ -65,28 +67,50 @@
   function clearCutscene() {
     if (cutsceneTimer !== null) clearTimeout(cutsceneTimer);
     cutsceneTimer = null;
+    aiDialogue.classList.remove("speaking");
+  }
+
+  function showDialogue(message, duration, next) {
+    const words = message.split(" ");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const interval = reducedMotion ? 0 : 160;
+    let count = 0;
+    aiDialogueText.textContent = "";
+    aiDialogueAnnouncement.textContent = "";
+    aiDialogue.classList.toggle("speaking", !reducedMotion);
+
+    function reveal() {
+      count = interval ? count + 1 : words.length;
+      aiDialogueText.textContent = words.slice(0, count).join(" ");
+      if (count < words.length) {
+        cutsceneTimer = setTimeout(reveal, interval);
+      } else {
+        aiDialogue.classList.remove("speaking");
+        aiDialogueAnnouncement.textContent = message;
+        const revealDuration = interval * (words.length - 1);
+        cutsceneTimer = setTimeout(next, Math.max(1000, duration - revealDuration));
+      }
+    }
+    reveal();
   }
 
   function startCutscene(looping) {
     clearCutscene();
     nextLevelDetails.hidden = true;
     levelCompleteTitle.hidden = !looping;
-    aiDialogueText.textContent = "Attempting to plot our way back to our time...";
-    cutsceneTimer = setTimeout(() => {
-      aiDialogueText.textContent = looping ? "Succeeded!" : "Failed, we need more memory.";
-      cutsceneTimer = setTimeout(() => {
+    showDialogue("Attempting to plot our way back to our time...", 3000, () => {
+      showDialogue(looping ? "Succeeded!" : "Failed, we need more memory.", 2000, () => {
         if (looping) {
-          aiDialogueText.textContent = "Oh. Probably shouldn't have let me watch Time Tunnel before we set off";
-          cutsceneTimer = setTimeout(() => {
+          showDialogue("Oh. Probably shouldn't have let me watch Time Tunnel before we set off", 2000, () => {
             nextLevelDetails.hidden = false;
             cutsceneTimer = null;
-          }, 2000);
+          });
         } else {
           nextLevelDetails.hidden = false;
           cutsceneTimer = null;
         }
-      }, 2000);
-    }, 3000);
+      });
+    });
   }
 
   function renderMemory(message) {

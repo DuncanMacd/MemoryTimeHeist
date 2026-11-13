@@ -13,7 +13,7 @@
       <div>
         <p class="eyebrow">A TIME-TRAVELLING 8-BIT ADVENTURE</p>
         <h1>MEMORY TIME <span>HEIST</span></h1>
-        <p id="subtitle" class="subtitle">A journey through the computer age.</p>
+        <p id="subtitle" class="subtitle" hidden>A journey through the computer age.</p>
       </div>
       <div class="header-actions">
         <button id="sound" type="button" aria-pressed="false">ENABLE SOUND</button>
@@ -27,8 +27,8 @@
 
     <section id="title-screen" class="title-screen" aria-labelledby="story-heading">
       <div class="story-content">
-        <h2 id="story-heading">A little too far back.</h2>
-        <p>You've travelled back in time to try and steal memory before people buy it in devices and fail to use it in the way you think is best. Unfortunately, you and your AI have travelled slightly too far back in time and need to steal memory for your AI to work out how to get you back to the present day.</p>
+        <h2 id="story-heading">A bit too far back.</h2>
+        <p>You've travelled back in time to try and acquire memory before people buy it in devices and fail to use it in the way you think is best. Unfortunately, you and your AI have travelled slightly too far back in time and need to acquire memory for your AI to work out how to get you back to the present day.</p>
         <button id="start" class="start-button" type="button">START <span aria-hidden="true">→</span></button>
       </div>
       <div class="title-art" role="img" aria-label="A retro computer shop"></div>
@@ -41,17 +41,21 @@
         <p id="level-complete-summary"></p>
         <div class="ai-dialogue">
           <svg class="ai-icon" viewBox="0 0 48 48" role="img" aria-label="AI companion" shape-rendering="crispEdges">
-            <path fill="#e9af5d" d="M22 1h4v6h-4zM7 10h34v5H7zM3 15h42v25H3zM8 40h32v5H8z"/>
-            <path fill="#242437" d="M8 16h32v19H8z"/>
-            <path fill="#74d9c4" d="M13 21h6v6h-6zM29 21h6v6h-6zM18 30h12v3H18z"/>
+            <path fill="#11111d" stroke="#49465b" d="M1 1h46v46H1z"/>
+            <g fill="#e53b35">
+              <path class="ai-bar ai-bar-left" d="M6 12h8v3H6zm0 5h8v3H6zm0 5h8v3H6zm0 5h8v3H6zm0 5h8v3H6z"/>
+              <path class="ai-bar ai-bar-centre" d="M20 7h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8z"/>
+              <path class="ai-bar ai-bar-right" d="M34 12h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8z"/>
+            </g>
           </svg>
           <div>
             <span class="ai-dialogue-label">AI COMPANION</span>
             <div class="ai-dialogue-message">
               <p class="ai-dialogue-sizer" aria-hidden="true">Attempting to plot our way back to our time...</p>
               <p class="ai-dialogue-sizer" aria-hidden="true">Oh. Probably shouldn't have let me watch Time Tunnel before we set off</p>
-              <p id="ai-dialogue-text" role="status" aria-live="polite"></p>
+              <p id="ai-dialogue-text" aria-hidden="true"></p>
             </div>
+            <span id="ai-dialogue-announcement" class="visually-hidden" role="status" aria-live="polite"></span>
           </div>
         </div>
         <div id="next-level-details" hidden>
@@ -82,9 +86,12 @@
       </div>
       <div class="ai-panel">
         <svg class="ai-icon" viewBox="0 0 48 48" role="img" aria-label="AI companion" shape-rendering="crispEdges">
-          <path fill="#e9af5d" d="M22 1h4v6h-4zM7 10h34v5H7zM3 15h42v25H3zM8 40h32v5H8z"/>
-          <path fill="#242437" d="M8 16h32v19H8z"/>
-          <path fill="#74d9c4" d="M13 21h6v6h-6zM29 21h6v6h-6zM18 30h12v3H18z"/>
+          <path fill="#11111d" stroke="#49465b" d="M1 1h46v46H1z"/>
+          <g fill="#e53b35">
+            <path class="ai-bar ai-bar-left" d="M6 12h8v3H6zm0 5h8v3H6zm0 5h8v3H6zm0 5h8v3H6zm0 5h8v3H6z"/>
+            <path class="ai-bar ai-bar-centre" d="M20 7h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8z"/>
+            <path class="ai-bar ai-bar-right" d="M34 12h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8zm0 5h8v3h-8z"/>
+          </g>
         </svg>
         <div class="ai-data">
           <div class="ai-heading"><span>AI MEMORY</span><span id="memory-total">0 / 64 MB</span></div>

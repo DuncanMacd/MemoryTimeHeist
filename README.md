@@ -2,11 +2,11 @@
 
 A browser-based time-travel game. Open `index.html` in a modern browser to play; no installation or server is required.
 
-You've travelled back in time to try and steal memory before people buy it in devices and fail to use it in the way you think is best. Unfortunately, you and your AI have travelled slightly too far back in time and need to steal memory for your AI to work out how to get you back to the present day.
+You've travelled back in time to try and acquire memory before people buy it in devices and fail to use it in the way you think is best. Unfortunately, you and your AI have travelled slightly too far back in time and need to acquire memory for your AI to work out how to get you back to the present day.
 
 Start from the title screen to enter the computer shop. The five levels have memory targets of 64, 128, 256, 512, and 1024 MB (1 GB), respectively, and each has a timer. Search items to collect memory for your AI; the front doors at the bottom of the shop stay locked until you meet the target. Leave before time runs out to advance. Running out of time ends the game. After escaping level five, the levels loop back to level one.
 
-After each successful escape, the level-complete screen shows how much memory you collected. The AI tries to plot a route home; after level five, it succeeds but sends you back to level one. The next level's target, time limit, and **Next Level** button then appear. Select it when ready; the next timer starts only after entering the level. After level five, you can instead select **Title Screen** to end the run and return to the title.
+After each successful escape, the level-complete screen shows how much memory you collected. The AI's red voice display pulses while its dialogue appears word by word; reduced-motion settings disable the animation and reveal each message immediately. The AI tries to plot a route home; after level five, it succeeds but sends you back to level one. The next level's target, time limit, and **Next Level** button then appear. Select it when ready; the next timer starts only after entering the level. After level five, you can instead select **Title Screen** to end the run and return to the title.
 
 Each searchable item, including storage and the printer, independently contains a random amount of memory. Zero is always possible; the non-zero choices double from the level's minimum to its maximum, as configured in `level-data.js`. Each option is equally likely. The amount is assigned when a level starts and is awarded once when the search completes. The AI panel shows the last find and progress toward the current level's target; its progress bar is orange until the target is met, then turns green. Memory does not carry over between levels. Bench items are shuffled between display positions at the start of each level or on reset; storage behind the counter stays in place. Resetting also rerolls their memory.
 
@@ -21,9 +21,9 @@ Each searchable item, including storage and the printer, independently contains 
 
 Search progress lasts for the current game session; refreshing or reopening the page starts a new game.
 
-Select **Enable Sound** to hear an approximately 18-second 8-bit loop of the opening of "The Cortege" from Charles Gounod's *Funeral March of a Marionette*, plus search and guard-alert effects. Browsers require a click before sound can start. Use **Mute Sound** to turn it off; the choice persists while moving between screens. Music plays on the title and during gameplay, stops on the level-complete and game-over screens, and pauses while the tab is hidden. Search sounds stop when a search is interrupted. No audio files or network connection are needed.
+Select **Enable Sound** to hear an approximately 23-second 8-bit loop of the opening of "The Cortege" from Charles Gounod's *Funeral March of a Marionette*, plus search and guard-alert effects. Browsers require a click before sound can start. Use **Mute Sound** to turn it off; the choice persists while moving between screens. Music plays on the title and during gameplay, stops on the level-complete and game-over screens, and pauses while the tab is hidden. Search sounds stop when a search is interrupted. No audio files or network connection are needed.
 
-The music is a new synthesized adaptation of an excerpt from the historical [1890 piano edition](https://archive.org/details/CSM_00744) of Gounod's public-domain composition; it does not use a commercial recording.
+The music is a new synthesized adaptation of an excerpt from the historical [1890 piano edition](https://archive.org/details/CSM_00744) of Gounod's public-domain composition, with a short original bridge back to the start; it does not use a commercial recording.
 
 ## Editing item data
 
