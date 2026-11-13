@@ -2,6 +2,9 @@
   "use strict";
 
   const titleScreen = document.getElementById("title-screen");
+  const creditsScreen = document.getElementById("credits-screen");
+  const creditsButton = document.getElementById("credits");
+  const creditsTitle = document.getElementById("credits-title");
   const gameScreen = document.getElementById("game-screen");
   const gameActions = document.getElementById("game-actions");
   const subtitle = document.getElementById("subtitle");
@@ -237,7 +240,7 @@
     }
   }
 
-  function showTitle() {
+  function showTitle(focusTarget = start) {
     clearCutscene();
     if (currentLevel) {
       updateClock(performance.now());
@@ -250,10 +253,11 @@
     gameActions.hidden = true;
     gameOverScreen.hidden = true;
     levelCompleteScreen.hidden = true;
+    creditsScreen.hidden = true;
     titleScreen.hidden = false;
     window.gameAudio.setMusicActive(true);
     subtitle.textContent = "A journey through the computer age.";
-    start.focus();
+    focusTarget.focus();
   }
 
   start.addEventListener("click", () => {
@@ -261,13 +265,19 @@
     if (!resume) levelNumber = 1;
     enterLevel(resume ? currentLevel : levels[0], Boolean(resume));
   });
-  menu.addEventListener("click", showTitle);
+  creditsButton.addEventListener("click", () => {
+    titleScreen.hidden = true;
+    creditsScreen.hidden = false;
+    document.getElementById("credits-heading").focus();
+  });
+  creditsTitle.addEventListener("click", () => showTitle(creditsButton));
+  menu.addEventListener("click", () => showTitle());
   nextLevelButton.addEventListener("click", () => {
     levelNumber = levelNumber % levels.length + 1;
     enterLevel(levels[levelNumber - 1], false);
   });
-  levelCompleteTitle.addEventListener("click", showTitle);
-  gameOverTitle.addEventListener("click", showTitle);
+  levelCompleteTitle.addEventListener("click", () => showTitle());
+  gameOverTitle.addEventListener("click", () => showTitle());
   restart.addEventListener("click", () => {
     updateClock(performance.now());
     if (!currentLevel) return;

@@ -12,6 +12,8 @@ Each searchable item, including storage and the printer, independently contains 
 
 **Title Screen** pauses the timer and returns to the story without resetting the shop; start again to resume. The timer also pauses while the browser tab is hidden. After game over, return to the title screen to start again at level 1.
 
+Select **Credits** on the title screen to view the game's credits and influences, then **Title Screen** to return.
+
 - Move using the arrow keys or WASD.
 - Stand still near equipment on a display bench and press Space to take it.
 - Search the storage units behind the counter in the same way. They disappear when the search is complete.
