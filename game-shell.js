@@ -30,6 +30,14 @@
   const memoryProgress = document.getElementById("memory-progress");
   const memoryMessage = document.getElementById("memory-message");
 
+  document.addEventListener("keydown", event => {
+    if (event.key !== "Enter" || event.repeat) return;
+    const button = event.target instanceof Element ? event.target.closest("button") : null;
+    if (!button || button.disabled) return;
+    event.preventDefault();
+    button.click();
+  }, true);
+
   function isPowerOfTwo(value) {
     return Number.isSafeInteger(value) && value > 0 &&
       2 ** Math.round(Math.log2(value)) === value;
